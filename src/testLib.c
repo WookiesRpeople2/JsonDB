@@ -1,17 +1,28 @@
-#include <idk.h>
-#include <stdio.h>
+#include <JsonDb.h>
 
-int main(int argc, char **argv)
+int main()
 {
-  if (argc > 1)
+  char *jsonString = readJson("C:/Users/KeenanTOBIANSKY/Documents/jsonDb/src/data.json");
+
+  char **keys = NULL;
+  char **values = NULL;
+  int count = 0;
+
+  JsonParseArray(jsonString, &keys, &values, &count);
+
+  for (int i = 0; i < count / 2; ++i)
   {
-    printf("%s\n", argv[1]);
-    printf("%s\n", reverse(argv[1]));
+    printf("Key: %s, Value: %s\n", keys[i], values[i]);
   }
-  else
+
+  for (int i = 0; i < count / 2; ++i)
   {
-    printf("No command-line arguments provided.\n");
+    free(keys[i]);
+    free(values[i]);
   }
+
+  free(keys);
+  free(values);
 
   return 0;
 }
