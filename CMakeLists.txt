@@ -24,13 +24,15 @@ foreach (lib_src_file ${LIB_SRC_FILES})
     list(APPEND LIB_OBJ_FILES ${BUILD_DIR}/${file_name}.o)
 endforeach ()
 
-add_executable(JsonDB ${OBJ_FILES} ${LIB_OBJ_FILES})
+add_library(JsonDBLib OBJECT ${OBJ_FILES} ${LIB_OBJ_FILES})
+
+add_executable(JsonDB $<TARGET_OBJECTS:JsonDBLib>)
 
 enable_testing()
 
 
 add_executable(JsonDBTests test/test_main.c test/test_jsondb.c)
-target_link_libraries(JsonDBTests PRIVATE JsonDB)
+target_link_libraries(JsonDBTests PRIVATE JsonDBLib)
 
 
 add_test(NAME JsonDBTests COMMAND JsonDBTests)
@@ -42,4 +44,4 @@ add_custom_target(lib_objects
         DEPENDS ${LIB_SRC_FILES})
 
 
-add_dependencies(JsonDB lib_objects)
+add_dependencies(JsonDBLib lib_objects)
