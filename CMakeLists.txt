@@ -6,6 +6,7 @@ set(SOURCES
     src/testLib.c
 )
 
-target_include_directories(JsonDB PRIVATE lib)
 add_executable(JsonDB ${SOURCES})
+target_include_directories(JsonDB PRIVATE lib)
+
 
