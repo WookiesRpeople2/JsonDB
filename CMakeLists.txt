@@ -8,5 +8,5 @@ set(SOURCES
 
 add_executable(JsonDB ${SOURCES})
 target_include_directories(JsonDB PRIVATE lib)
-
+target_link_libraries(JsonDB PRIVATE lib)
 
