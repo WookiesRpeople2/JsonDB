@@ -2,7 +2,7 @@
 
 int main()
 {
-  char *jsonString = readJson("C:/Users/KeenanTOBIANSKY/Documents/jsonDb/src/data.json");
+  char *jsonString = readJson("src/data.json");
 
   char **keys = NULL;
   char **values = NULL;
@@ -23,6 +23,7 @@ int main()
 
   free(keys);
   free(values);
+  free(jsonString);
 
   return 0;
 }
