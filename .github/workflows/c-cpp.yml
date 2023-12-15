@@ -1,4 +1,4 @@
-name: CI/CD for C Project
+name: CI/CD for C++ Project
 
 on:
   push:
@@ -16,10 +16,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up CMake
-        uses: actions/setup-cmake@v2
-        with:
-          cmake-version: "3.21.3"
+      - name: Install build tools and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
 
       - name: Build
         run: |
@@ -28,7 +28,7 @@ jobs:
           cmake ..
           make
 
-      - name: Test
+      - name: Run Tests
         run: |
           cd build
-          ctest
+          ctest --output-on-failure
