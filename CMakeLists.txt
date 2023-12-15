@@ -3,7 +3,7 @@ project(JsonDB C)
 
 # Source files
 set(SOURCES
-    src/testlib.c
+    src/testLib.c
 )
 
 
