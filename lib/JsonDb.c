@@ -1,33 +1,5 @@
 #include <JsonDb.h>
 
-void JsonParseArray(const char *jsonString, char ***keys, char ***values, int *count)
-{
-  char *token = strtok((char *)jsonString, "[],{}\":");
-
-  *count = 0;
-
-  while (token != NULL)
-  {
-    if (strlen(token) > 0 && token[0] != ' ' && token[0] != '\t' && token[0] != '\n')
-    {
-      if (*count % 2 == 0)
-      {
-        *keys = realloc(*keys, ((*count / 2) + 1) * sizeof(char *));
-        (*keys)[*count / 2] = strdup(token);
-      }
-      else
-      {
-        *values = realloc(*values, ((*count / 2) + 1) * sizeof(char *));
-        (*values)[*count / 2] = strdup(token);
-      }
-
-      (*count)++;
-    }
-
-    token = strtok(NULL, "[],{}\":");
-  }
-}
-
 char *readJson(char *path)
 {
   FILE *file;
@@ -61,4 +33,49 @@ char *readJson(char *path)
   fclose(file);
 
   return jsonData;
+}
+
+void freeJSONObject(JSONObject *obj)
+{
+  for (int i = 0; i < obj->size; i++)
+  {
+    free(obj->pairs[i].key);
+    free(obj->pairs[i].value);
+  }
+  free(obj->pairs);
+}
+
+JSONObject parseJSON(const char *json)
+{
+  JSONObject result;
+  result.size = 0;
+  result.pairs = NULL;
+  char *delemiter = "{}\":, \t\n\r[]";
+
+  const char *token = strtok((char *)json, delemiter);
+
+  while (token != NULL)
+  {
+    KeyValuePair pair;
+    pair.key = strdup(token);
+
+    token = strtok(NULL, delemiter);
+
+    if (token == NULL)
+    {
+      fprintf(stderr, "Error: Malformed JSON\n");
+      freeJSONObject(&result);
+      return result;
+    }
+
+    pair.value = strdup(token);
+
+    result.size++;
+    result.pairs = realloc(result.pairs, result.size * sizeof(KeyValuePair));
+    result.pairs[result.size - 1] = pair;
+
+    token = strtok(NULL, delemiter);
+  }
+
+  return result;
 }

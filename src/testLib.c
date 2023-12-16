@@ -2,28 +2,15 @@
 
 int main()
 {
-  char *jsonString = readJson("src/data.json");
+  const char *jsonString = readJson("src/data.json");
+  JSONObject jsonObject = parseJSON(jsonString);
 
-  char **keys = NULL;
-  char **values = NULL;
-  int count = 0;
-
-  JsonParseArray(jsonString, &keys, &values, &count);
-
-  for (int i = 0; i < count / 2; ++i)
+  for (int i = 0; i < jsonObject.size; ++i)
   {
-    printf("Key: %s, Value: %s\n", keys[i], values[i]);
+    printf("Key: %s, Value: %s\n", jsonObject.pairs[i].key, jsonObject.pairs[i].value);
   }
 
-  for (int i = 0; i < count / 2; ++i)
-  {
-    free(keys[i]);
-    free(values[i]);
-  }
-
-  free(keys);
-  free(values);
-  free(jsonString);
+  freeJSONObject(&jsonObject);
 
   return 0;
 }
