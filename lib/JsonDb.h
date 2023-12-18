@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <libpq-fe.h>
 /**
  * @struct KeyValuePair
  * @brief reprensets a key valeue pair found in a json object, {key: value}
@@ -46,5 +46,11 @@ void freeJSONObject(JSONObject *obj);
  * @param *json The json data that will be passed
  */
 JSONObject parseJSON(const char *json);
+
+/**
+ * @brief function to connect to the postgresql database
+ * @param *connectionInfo string used in order to connect to the data base
+ */
+PGconn *connectDb(const char *connectionInfo);
 
 #endif

@@ -1,8 +1,9 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Ilib
-
-SRC_DIR = src
+POSTGRES_INCLUDE = drivers/postgresqlDriver/include
+POSTGRES_LIB = drivers/postgresqlDriver/lib
 LIB_DIR = lib
+CFLAGS = -Wall -Wextra -L${POSTGRES_LIB} -I${LIB_DIR} -I$(POSTGRES_INCLUDE)
+SRC_DIR = src
 BUILD_DIR = build
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)

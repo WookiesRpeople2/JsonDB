@@ -10,7 +10,5 @@ int main()
     printf("Key: %s, Value: %s\n", jsonObject.pairs[i].key, jsonObject.pairs[i].value);
   }
 
-  freeJSONObject(&jsonObject);
-
   return 0;
 }

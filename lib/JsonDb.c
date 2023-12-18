@@ -79,3 +79,17 @@ JSONObject parseJSON(const char *json)
 
   return result;
 }
+
+PGconn *connectDb(const char *connectionInfo)
+{
+  PGconn *connection = PQconnectdb(connectionInfo);
+  if (PQstatus(connection) != CONNECTION_OK)
+  {
+    fprintf(stderr, "Error occured while connectiong to Postgreql database: %s\n", PQerrorMessage(connection));
+    PQfinish(connection);
+    exit(1);
+  }
+
+  printf("connected to database yayyy");
+  return connection;
+}
